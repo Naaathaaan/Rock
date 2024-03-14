@@ -1,0 +1,13 @@
+{
+    "name": "your-package-name",
+    "version": "1.0.0",
+    "license": "MIT",
+    "scripts": {
+      "build": "babel src -d lib"
+    },
+    "dependencies": {},
+    "devDependencies": {
+      "@babel/cli": "^7.23.9",
+      "@babel/core": "^7.24.0"
+    }
+  }
