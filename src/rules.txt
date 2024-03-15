@@ -1,0 +1,11 @@
+{
+    "rock": {
+        "src": "rock.png"
+    },
+    "paper": {
+        "src": "paper.png"
+    },
+    "scissors": {
+        "src": "scissors.png"
+    }
+}

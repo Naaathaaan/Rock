@@ -1,2 +1,147 @@
-Hello IRCITE2024
-<img src="logo.png" height="350px"/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors Game</title>
+ <link rel="stylesheet" href="style.css">
+   
+</head>
+<body>
+
+</br>
+</br>
+
+
+<div id="game-container" style="margin-bottom:150px;">
+    <div id="computer-container">
+      <p style="margin-bottom:-20px;">Computer</p>
+    </div></br>
+    <div class="choice-box" id="computerMoveBox"></div>
+    <div style="margin-top:20px;">Player</div>
+</div>
+
+<div id="line">
+  <div id="result-container">
+    <p id="result"></p>
+  </div>
+</div>
+
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+
+
+
+  <div style="margin-top: -170px;">
+    <p>Your Move:</p>
+  <div id="choices-container">
+    <div class="choice-box" id="rock" onclick="playGame('Rock')">
+      <!-- <img src="rock.png"> -->
+      /div>
+    <div class="choice-box" id="paper" onclick="playGame('Paper')">
+      <!-- <img src="paper.png"> -->
+    </div>
+    <div class="choice-box" id="scissors" onclick="playGame('Scissors')">
+      <!-- <img src="scissors.png"> -->
+    </div>
+  </div>
+  </div>
+
+
+  <div id="score-container" style="margin-top:-10px;">
+    <p>Game Score: <span id="playerScore">0</span></p>
+  </div>
+
+  <script>
+    var playerScore = 0;
+
+    function makeRequest() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'rules.txt', true);
+      xhr.send();
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var images = JSON.parse(xhr.responseText);
+          console.log(images);
+          displayChoices(images);
+        }
+      };
+    }
+
+    function displayChoices(images) {
+  for (var move in images) {
+    if (images.hasOwnProperty(move)) {
+      var choiceBox = document.getElementById(move);
+      var imgElement = document.getElementById(move + 'Image');
+
+      
+      if (!imgElement) {
+        imgElement = document.createElement('img');
+        imgElement.id = move + 'Image';
+        choiceBox.appendChild(imgElement);
+      }
+
+      imgElement.src = images[move].src;
+    }
+  }
+}
+function getResult(playerMove, computerMove) {
+      if (playerMove === computerMove) {
+        return playerMove + " It's a tie! " + computerMove;
+      } else if (
+        (playerMove === 'Rock' && computerMove === 'Scissors') ||
+        (playerMove === 'Paper' && computerMove === 'Rock') ||
+        (playerMove === 'Scissors' && computerMove === 'Paper')
+      ) {
+        return 'You win! ' + playerMove + ' beats '+ computerMove;
+        playerScore++;
+        console.log(this);
+      } else {
+        return 'You lose! ' + playerMove + ' beats '+ computerMove;
+        playerScore = Math.max(0, playerScore - 1);
+        console.log(this);
+      }
+      
+    }
+function playGame(playerMove) {
+  var moves = ['Rock', 'Paper', 'Scissors'];
+  var computerMove = moves[Math.floor(Math.random() * moves.length)];
+  displayComputerMove(computerMove);
+
+  var resultElement = document.getElementById('result');
+  var playerScoreElement = document.getElementById('playerScore');
+  var playerChoiceElement = document.querySelector('.player_choice_value');
+
+  var result = getResult(playerMove, computerMove);
+  resultElement.textContent = result;
+
+  if (result === 'You win!') {
+    playerScore++;
+  } else if (result === 'You lose!') {
+    playerScore = Math.max(0, playerScore - 1); 
+  }
+
+  playerScoreElement.textContent = playerScore;
+  
+  playerChoiceElement.style.backgroundImage = document.getElementById(playerMove.toLowerCase()).style.backgroundImage;
+}
+
+
+    
+
+    function displayComputerMove(move) {
+      var computerMoveBox = document.getElementById('computerMoveBox');
+      computerMoveBox.style.backgroundImage = 'url(' + move.toLowerCase() + '.png)';
+    }
+    makeRequest();
+  </script>
+
+</body>
+</html>
+
